@@ -7,7 +7,7 @@ library(goctools)
 library(flextable)
 library(tidyverse)
 
-dbHeader <- dashboardHeader(title = "GOC Dashboard v2.0")
+dbHeader <- dashboardHeader(title = "GOC Dashboard 2.0")
 
 ui <- dashboardPage(
     dbHeader,
@@ -289,9 +289,7 @@ ui <- dashboardPage(
                 infoBox("Today", Sys.Date(), icon = icon("calendar"), color = "fuchsia", fill = TRUE),
                 infoBox("Active Members", value=uiOutput("active_members"), icon = icon("users"), color = "green", fill = TRUE),
                 box(title = "GOC News", background = "navy", width = 4,
-                    p("New estimated completion date is July 18.",
-                    "Punch list items and inspections may delay moving back.",
-                    "Stay tuned.")
+                    p("Your news here")
                 ),
                 
                 box(title = "Membership Growth", status = "warning", solidHeader = TRUE, collapsible = TRUE, plotOutput("important_plot", 
@@ -304,7 +302,8 @@ ui <- dashboardPage(
                     title = "Flourish News",
                     background = "navy",
                     width = 4,
-                    p("This is version 2 of the dashboard.  See link at top of page for what's new.")
+                    p("This is version 2 of the dashboard.  See link at top of page for what's new."),
+                    p("Plot Member Attendance By Month repaired")
                 )
             ),
 
@@ -496,7 +495,7 @@ server <- function(input, output) {
     output$active_members                     <- renderText({ nrow(get_members(active.only=T)) })
     output$todays_birthdays                   <- renderText({ get_birthdays() })
     output$ada                                <- renderText({ format(round(get_average_daily_attendance(30), 1), nsmall = 1) }) 
-    output$important_plot                     <- renderPlot({ plot_member_attendance_by_month() })  
+    output$important_plot                     <- renderPlot({ plot_member_attendance_by_month(end_date=input$date) })  
     output$another_plot                       <- renderPlot({ plot_total_raised_by_year() })
   
     # Members
@@ -559,7 +558,7 @@ server <- function(input, output) {
     output$html_newly_absent_member_list           <- renderUI({ list_newly_absent_members(input$date)        %>% flextable::htmltools_value() })  
     output$html_monthly_attendance_summary         <- renderUI({ list_monthly_attendance_summary(input$date)  %>% flextable::htmltools_value() })  
     
-    output$plot_attendance_by_month                <- renderPlot({ plot_member_attendance_by_month(input$date) })
+    output$plot_attendance_by_month                <- renderPlot({ plot_member_attendance_by_month(end_date=input$date) })
     output$plot_attendance_by_year_and_person_type <- renderPlot({ plot_attendance_by_year()                   })
     output$plot_active_members_over_time           <- renderPlot({ plot_active_members_over_time(input$date)   })
     
