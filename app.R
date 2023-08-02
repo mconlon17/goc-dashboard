@@ -614,10 +614,10 @@ server <- function(input, output) {
     
     # Billing and Payroll
 
-    output$html_clubhouse_billing            <- renderUI({ list_clubhouse_billing()                      %>% flextable::htmltools_value() })   
-    output$html_supported_employment_billing <- renderUI({ list_supported_employment_billing()           %>% flextable::htmltools_value() })   
-    output$html_last_attendance              <- renderUI({ list_last_attendance()                        %>% flextable::htmltools_value() })   
-    output$html_staff_time                   <- renderUI({ list_staff_time(input$staff_name, input$date) %>% flextable::htmltools_value() })   
+    output$html_clubhouse_billing            <- renderUI({ list_clubhouse_billing(input$date)                  %>% flextable::htmltools_value() })   
+    output$html_supported_employment_billing <- renderUI({ list_supported_employment_billing(input$date)       %>% flextable::htmltools_value() })   
+    output$html_last_attendance              <- renderUI({ list_last_attendance(input$date)                    %>% flextable::htmltools_value() })   
+    output$html_staff_time                   <- renderUI({ list_staff_time(input$staff_name, input$date)       %>% flextable::htmltools_value() })   
     
     # Employment
     
